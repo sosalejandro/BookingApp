@@ -1,0 +1,12 @@
+version: '3.4'
+
+services:
+  db:
+    container_name: mssql-server
+    image: mcr.microsoft.com/mssql/server:2019-latest
+
+  bookingapp.api:
+    image: ${DOCKER_REGISTRY-}bookingappapi
+    build:
+      context: .
+      dockerfile: BookingApp.API/Dockerfile

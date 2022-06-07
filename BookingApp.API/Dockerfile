@@ -7,7 +7,9 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["BookingApp.API/BookingApp.API.csproj", "BookingApp.API/"]
+COPY ../*.sln ./
+COPY ../*/*.csproj ./
+RUN for file in $(ls *.csproj); do mkdir -p ./${file%.*}/ && mv $file ./${file%.*}/; done
 RUN dotnet restore "BookingApp.API/BookingApp.API.csproj"
 COPY . .
 WORKDIR "/src/BookingApp.API"
