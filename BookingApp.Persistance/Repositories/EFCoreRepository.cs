@@ -40,12 +40,14 @@ internal abstract class EFCoreRepository<TClass> : IRepository<TClass> where TCl
         _hotelDbContext.Set<TClass>().Remove(entity);
     }
 
-    public virtual async Task<IEnumerable<TClass>> GetAllAsync(PagingParameters paginParameters, CancellationToken stoppingToken = default)
+    public virtual async Task<IEnumerable<TClass>> GetAllAsync<TParameters>(
+        TParameters pagingParameters,
+        CancellationToken stoppingToken = default) where TParameters : PagingParameters
     {
         return await PagedList<TClass>.ToPagedList(
             _hotelDbContext.Set<TClass>(),
-            paginParameters.PageNumber,
-            paginParameters.PageSize,
+            pagingParameters.PageNumber,
+            pagingParameters.PageSize,
             stoppingToken);
 
         //return await _hotelDbContext
@@ -55,13 +57,16 @@ internal abstract class EFCoreRepository<TClass> : IRepository<TClass> where TCl
         //    .ToListAsync(stoppingToken);
     }
 
-    public virtual async Task<IEnumerable<TClass>> GetAllAsync(Expression<Func<TClass, bool>> expression, PagingParameters paginParameters, CancellationToken stoppingToken = default)
+    public virtual async Task<IEnumerable<TClass>> GetAllAsync<TParameters>(
+        Expression<Func<TClass, bool>> expression,
+        TParameters pagingParameters,
+        CancellationToken stoppingToken = default) where TParameters : PagingParameters
     {
         return await PagedList<TClass>.ToPagedList(
             _hotelDbContext.Set<TClass>()
             .Where(expression), 
-            paginParameters.PageNumber, 
-            paginParameters.PageSize, 
+            pagingParameters.PageNumber, 
+            pagingParameters.PageSize, 
             stoppingToken);
 
         //return await _hotelDbContext
