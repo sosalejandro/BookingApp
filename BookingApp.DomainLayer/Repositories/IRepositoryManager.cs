@@ -3,9 +3,9 @@
 namespace BookingApp.DomainLayer.Repositories;
 public interface IRepositoryManager
 {
-    IRepository<Hotel> HotelRepository { get; }
+    IHotelRepository HotelRepository { get; }
 
-    IRepository<Room> RoomRepository { get; }
+    IRoomRepository RoomRepository { get; }
 
     IUnitOfWork UnitOfWork { get; }
 }
