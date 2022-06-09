@@ -11,9 +11,16 @@ namespace BookingApp.DomainLayer.Repositories;
 public interface IRepository<TEntity> where TEntity : BaseEntity
 {
     void CreateAsync(TEntity entity);
-    Task<TEntity?> GetAsync(int id, CancellationToken stoppingToken = default);
-    Task<IEnumerable<TEntity>> GetAllAsync(PagingParameters paginParameters, CancellationToken stoppingToken = default);
-    Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> expression, PagingParameters paginParameters, CancellationToken stoppingToken = default);
+    Task<TEntity?> GetAsync(
+        int id,
+        CancellationToken stoppingToken = default);
+    Task<IEnumerable<TEntity>> GetAllAsync<TParameters>(
+        TParameters pagingParameters,
+        CancellationToken stoppingToken = default) where TParameters : PagingParameters;
+    Task<IEnumerable<TEntity>> GetAllAsync<TParameters>(
+        Expression<Func<TEntity, bool>> expression,
+        TParameters pagingParameters,
+        CancellationToken stoppingToken = default) where TParameters : PagingParameters;
     Task UpdateAsync(TEntity entity);
     Task DeleteAsync(int id);
 }
