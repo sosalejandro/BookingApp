@@ -2,12 +2,7 @@
 using BookingApp.DomainLayer.Options;
 using BookingApp.DomainLayer.Repositories;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BookingApp.Persistance.Repositories;
 internal abstract class EFCoreRepository<TClass> : IRepository<TClass> where TClass : BaseEntity
