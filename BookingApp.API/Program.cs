@@ -4,6 +4,7 @@ using BookingApp.DomainLayer.Repositories;
 using BookingApp.Persistance;
 using BookingApp.Persistance.Repositories;
 using BookingApp.Presentation.ActionFilters;
+using BookingApp.Presentation.ResultFilters;
 using BookingApp.ServiceLayer.Abstractions;
 using BookingApp.ServiceLayer.Services.V1;
 using Microsoft.EntityFrameworkCore;
