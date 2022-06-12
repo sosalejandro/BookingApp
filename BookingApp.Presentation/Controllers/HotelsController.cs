@@ -21,11 +21,12 @@ public class HotelsController : ControllerBase
         throw new ArgumentNullException(nameof(service));
 
     [HttpOptions]
+    [ProducesResponseType(200)]
     public IActionResult GetBaseHotelOptions()
     {
         Response.Headers.Add(
             "Allow",
-            "GET, OPTIONS, POST, PUT, PATCH, DELETE");
+            "GET, OPTIONS, HEAD, POST, PUT, PATCH, DELETE");
 
         return Ok();
     }
@@ -56,30 +57,7 @@ public class HotelsController : ControllerBase
             .GetHotelAsync(id);
 
         return Ok(hotel);
-    }
-
-    [HttpOptions("collection")]
-    public IActionResult GetBaseHotelCollectionoptions()
-    {
-        Response.Headers.Add(
-           "Allow",
-           "GET, OPTIONS, POST");
-
-        return Ok();
-    }
-    
-    [HttpGet("collection/({ids})", Name = "HotelCollection")]
-    [ServiceFilter(typeof(PaginationHeaderFilterAttribute<HotelDto>))]
-    public async Task<IActionResult> GetHotelCollection
-        ([ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<int> ids,
-        [FromQuery] HotelParameters hotelParameters)
-    {
-        var hotels = await _service
-        .HotelService
-        .GetByIdsAsync(ids, hotelParameters);
-
-        return Ok(hotels);
-    }
+    }   
 
     [HttpPost(Name = "CreateHotel")]
     [ProducesResponseType(201)]
@@ -98,22 +76,7 @@ public class HotelsController : ControllerBase
             },
             createdHotel);
     }
-
-    [HttpPost("collection")]
-    [ProducesResponseType(201)]
-    [ProducesResponseType(400)]
-    [ProducesResponseType(422)]
-    [ServiceFilter(typeof(ValidationFilterAttribute))]
-    public async Task<IActionResult> CreateHotelCollection
-    ([FromBody] IEnumerable<HotelForCreationDto> hotelCollection)
-    {
-        var result = await _service
-            .HotelService
-            .CreateCollectionAsync(
-            hotelCollection);
-
-        return CreatedAtRoute("HotelCollection", new { result.ids }, result.hotels);
-    }
+    
 
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteHotel(int id)
