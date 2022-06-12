@@ -57,7 +57,11 @@ public class HotelEntityTypeConfiguration : IEntityTypeConfiguration<Hotel>
 
         builder.Property(h => h.CheapestPrice)
             .IsRequired()
-            .HasDefaultValue(0);
+            .HasDefaultValue((long)0);
+
+        builder.Property(h => h.ExpensiestPrice)
+            .IsRequired()
+            .HasDefaultValue((long)0);
 
         builder.Property(h => h.Featured)
             .IsRequired()

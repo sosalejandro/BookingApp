@@ -11,25 +11,33 @@ internal sealed partial class RoomService
                 hotel.Id, room.Id);
     }
 
-    private async Task<Room> GetRoomById(int roomId, CancellationToken stoppingToken)
+    private async Task<Room> GetRoomById(int roomId, bool trackChanges, CancellationToken stoppingToken)
     {
         var room = await _repositoryManager
             .RoomRepository
-            .GetAsync(roomId, stoppingToken);
+            .GetRoom(
+            roomId,
+            trackChanges,
+            stoppingToken);
 
         if (room is null)
             throw new RoomNotFoundException(roomId);
+
         return room;
     }
 
-    private async Task<Hotel> GetHotelById(int hotelId, CancellationToken stoppingToken)
+    private async Task<Hotel> GetHotelById(int hotelId, bool trackChanges, CancellationToken stoppingToken)
     {
         var hotel = await _repositoryManager
             .HotelRepository
-            .GetAsync(hotelId, stoppingToken);
+            .GetHotelAsync(
+            hotelId,
+            trackChanges,
+            stoppingToken);
 
         if (hotel is null)
             throw new HotelNotFoundException(hotelId);
+
         return hotel;
     }
 }

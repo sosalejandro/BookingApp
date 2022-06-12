@@ -21,14 +21,17 @@ internal sealed partial class RoomService : IRoomService
         RoomForCreationDto roomForCreatingDto,
         CancellationToken stoppingToken = default)
     {
-        Hotel hotel = await GetHotelById(hotelId, stoppingToken);
+        Hotel hotel = await GetHotelById(
+            hotelId,
+            true,
+            stoppingToken);
 
         Room room = roomForCreatingDto.Adapt<Room>();
 
         hotel.AddRoom(room);
 
         // Maybe redundant
-        await _repositoryManager.HotelRepository.UpdateAsync(hotel);
+        _repositoryManager.HotelRepository.UpdateHotel(hotel);
 
         await _repositoryManager.UnitOfWork.SaveChangesAsync(stoppingToken);
 
@@ -40,19 +43,25 @@ internal sealed partial class RoomService : IRoomService
         int roomId,
         CancellationToken stoppingToken = default)
     {
-        Hotel hotel = await GetHotelById(hotelId, stoppingToken);
+        Hotel hotel = await GetHotelById(
+            hotelId,
+            true,
+            stoppingToken);
 
-        Room room = await GetRoomById(roomId, stoppingToken);
+        Room room = await GetRoomById(
+            roomId,
+            false,
+            stoppingToken);
 
         CheckForEntityRelationship(hotel, room);
 
-        await _repositoryManager.RoomRepository.DeleteAsync(room.Id);
+        _repositoryManager.RoomRepository.DeleteRoom(room);
 
         await _repositoryManager.UnitOfWork.SaveChangesAsync(stoppingToken);
     }
 
     public Task<IEnumerable<RoomDto>> GetAllAsync(
-        PagingParameters pagingParameters,
+        RoomParameters roomParameters,
         CancellationToken stoppingToken = default)
     {
         throw new NotImplementedException();
@@ -60,14 +69,16 @@ internal sealed partial class RoomService : IRoomService
 
     public async Task<IEnumerable<RoomDto>> GetAllByHotelAsync(
         int hotelId,
-        PagingParameters pagingPatemers,
+        RoomParameters roomParameters,
         CancellationToken stoppingToken = default)
     {
         var rooms = await _repositoryManager
            .RoomRepository
-           .GetAllAsync(
-            r => r.HotelId == hotelId,
-            pagingPatemers, stoppingToken);
+           .GetRoomsForHotel(
+            hotelId,
+            roomParameters,
+            false,
+            stoppingToken);
 
         var roomsDto = rooms
             .Adapt<IEnumerable<RoomDto>>();
@@ -80,9 +91,15 @@ internal sealed partial class RoomService : IRoomService
         int roomId,
         CancellationToken stoppingToken = default)
     {
-        Hotel hotel = await GetHotelById(hotelId, stoppingToken);
+        Hotel hotel = await GetHotelById(
+            hotelId,
+            false,
+            stoppingToken);
 
-        Room room = await GetRoomById(roomId, stoppingToken);
+        Room room = await GetRoomById(
+            roomId,
+            false,
+            stoppingToken);
 
         CheckForEntityRelationship(hotel, room);
 
@@ -99,16 +116,22 @@ internal sealed partial class RoomService : IRoomService
         RoomForUpdateDto roomForUpdateDto,
         CancellationToken stoppingToken = default)
     {
-        Hotel hotel = await GetHotelById(hotelId, stoppingToken);
+        Hotel hotel = await GetHotelById(
+            hotelId,
+            true,
+            stoppingToken);
 
-        Room room = await GetRoomById(roomId, stoppingToken);
+        Room room = await GetRoomById(
+            roomId,
+            true,
+            stoppingToken);
 
         CheckForEntityRelationship(hotel, room);
 
         // TODO: Room Update logic
         throw new NotImplementedException();
 
-        await _repositoryManager.RoomRepository.UpdateAsync(room);
+        _repositoryManager.RoomRepository.UpdateRoom(room);
 
         await _repositoryManager.UnitOfWork.SaveChangesAsync(stoppingToken);
     }

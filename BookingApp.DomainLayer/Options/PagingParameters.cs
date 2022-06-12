@@ -21,4 +21,6 @@ public class PagingParameters
             _pageSize = (value > maxPageSize) ? maxPageSize : value;
         }
     }
+
+    public string OrderBy { get; set; }
 }

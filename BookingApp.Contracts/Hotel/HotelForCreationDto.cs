@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BookingApp.Contracts.Hotel;
+using BookingApp.Contracts.Room;
 
 namespace BookingApp.Contracts.DTOs;
-public record HotelForCreationDto
+public record HotelForCreationDto : HotelForManipulationDto
 {
+    public IEnumerable<RoomForCreationDto?> Rooms { get; init; }
 }

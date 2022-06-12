@@ -9,7 +9,10 @@ internal sealed class RoomEntityTypeConfiguration : IEntityTypeConfiguration<Roo
     {
         builder.ToTable("Rooms");
 
-        builder.HasKey(r => r.Id);        
+        builder.HasKey(r => r.Id);
+
+        builder.Property(r => r.Name)
+            .IsRequired();            
 
         builder.Property(r => r.CreatedDate)
             .IsRequired()

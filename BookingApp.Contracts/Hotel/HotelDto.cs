@@ -8,4 +8,5 @@ namespace BookingApp.Contracts.DTOs;
 
 public record HotelDto
 {
+    public int Id { get; set; }
 }

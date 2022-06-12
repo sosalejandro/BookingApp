@@ -9,14 +9,18 @@ using System.Threading.Tasks;
 namespace BookingApp.ServiceLayer.Services.V1;
 internal sealed partial class HotelService
 {
-    private async Task<Hotel> GetHotelById(int hotelId, CancellationToken stoppingToken)
+    private async Task<Hotel> GetHotelById(int hotelId, bool trackChanges, CancellationToken stoppingToken)
     {
         var hotel = await _repositoryManager
             .HotelRepository
-            .GetAsync(hotelId, stoppingToken);
+            .GetHotelAsync(
+            hotelId,
+            trackChanges,
+            stoppingToken);
 
         if (hotel is null)
             throw new HotelNotFoundException(hotelId);
+
         return hotel;
     }
 }
