@@ -1,7 +1,9 @@
 using BookingApp.API.Middlewares;
+using BookingApp.Contracts.DTOs;
 using BookingApp.DomainLayer.Repositories;
 using BookingApp.Persistance;
 using BookingApp.Persistance.Repositories;
+using BookingApp.Presentation.ActionFilters;
 using BookingApp.ServiceLayer.Abstractions;
 using BookingApp.ServiceLayer.Services.V1;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +17,10 @@ builder.Services.AddControllers()
 builder.Services.AddScoped<IServiceManager, ServiceManager>();
 builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
 builder.Services.AddTransient<ExceptionHandlingMiddleware>();
+
+builder.Services.AddScoped<PaginationHeaderFilterAttribute<HotelDto>>();
+builder.Services.AddScoped<ValidationFilterAttribute>();
+
 builder.Services.AddDbContext<HotelDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
