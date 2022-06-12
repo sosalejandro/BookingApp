@@ -11,17 +11,10 @@ internal static class HotelRepositoryExtensions
         this IQueryable<Hotel> hotels,
         HotelParameters hotelParameters)
     {
-        Func<Hotel, bool> ratingCheck = (h) => 
-        h.Rating >= hotelParameters.MinRating &&
-        h.Rating <= hotelParameters.MaxRating;
-
-        Func<Hotel, bool> priceCheck = (h) =>
-        h.CheapestPrice >= hotelParameters.MinPrice &&
-        h.CheapestPrice <= hotelParameters.MaxPrice;
-
         return hotels.Where(h => 
         (h.Rating >= hotelParameters.MinRating &&
-        h.Rating <= hotelParameters.MaxRating) && 
+        h.Rating <= hotelParameters.MaxRating) 
+        && 
         (h.CheapestPrice >= hotelParameters.MinPrice &&
         h.CheapestPrice <= hotelParameters.MaxPrice));
     }

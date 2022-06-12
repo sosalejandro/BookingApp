@@ -11,15 +11,12 @@ internal static class RoomRepositoryExtensions
         this IQueryable<Room> rooms,
         RoomParameters roomParameters)
     {
-        Func<Room, bool> priceCheck = (r) =>
-        r.Price >= roomParameters.MinPrice &&
-        r.Price <= roomParameters.MaxPrice;
-
-        Func<Room, bool> capacityCheck = (r) =>
-        r.Capacity >= roomParameters.MinCapacity &&
-        r.Capacity <= roomParameters.MaxCapacity;
-
-        return rooms.Where(r => priceCheck(r) && capacityCheck(r));
+        return rooms.Where(r => 
+        (r.Price >= roomParameters.MinPrice &&
+        r.Price <= roomParameters.MaxPrice)
+        && 
+        (r.Capacity >= roomParameters.MinCapacity &&
+        r.Capacity <= roomParameters.MaxCapacity));
     }
 
     public static IQueryable<Room> Search(
