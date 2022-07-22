@@ -20,6 +20,6 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore "BookingApp.API/BookingApp.API.csproj"
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build "BookingApp.API/BookingApp.API.csproj"
     - name: Test
       run: dotnet test --no-build --verbosity normal
