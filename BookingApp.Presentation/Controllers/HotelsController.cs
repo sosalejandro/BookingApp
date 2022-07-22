@@ -1,7 +1,6 @@
 ﻿using BookingApp.Contracts.DTOs;
 using BookingApp.DomainLayer.Options;
 using BookingApp.Presentation.ActionFilters;
-using BookingApp.Presentation.ModelBinders;
 using BookingApp.Presentation.ResultFilters;
 using BookingApp.ServiceLayer.Abstractions;
 using Microsoft.AspNetCore.JsonPatch;
@@ -35,17 +34,21 @@ public class HotelsController : ControllerBase
     [HttpGet(Name = "GetHotels")]
     [ProducesResponseType(200)]
     [ProducesResponseType(400)]
+    [ProducesResponseType(404)]
     [ServiceFilter(typeof(PaginationHeaderFilterAttribute<HotelDto>))]
     public async Task<IActionResult> GetHotels(
-        [FromQuery] HotelParameters hotelParameters)
+        [FromQuery] HotelParameters hotelParameters, CancellationToken stoppingToken)
     {
-        (IEnumerable<HotelDto>, MetaData) hotels = await _service
+        (IEnumerable<HotelDto>, MetaData) result = await _service
             .HotelService
-            .GetAllAsync(hotelParameters);
+            .GetAllAsync(hotelParameters, stoppingToken);
 
-        return Ok(hotels);
+        if (!result.Item1.Any())
+            return NotFound("There are no items in the collection.");
+
+        return Ok(result);
     }
-    
+
     [HttpGet("{id:int}", Name = "HotelById")]
     [ProducesResponseType(200)]
     [ProducesResponseType(400)]
@@ -57,7 +60,7 @@ public class HotelsController : ControllerBase
             .GetHotelAsync(id);
 
         return Ok(hotel);
-    }   
+    }
 
     [HttpPost(Name = "CreateHotel")]
     [ProducesResponseType(201)]
@@ -76,7 +79,7 @@ public class HotelsController : ControllerBase
             },
             createdHotel);
     }
-    
+
 
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteHotel(int id)

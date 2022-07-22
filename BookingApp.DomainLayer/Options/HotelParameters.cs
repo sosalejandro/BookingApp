@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,9 +15,11 @@ public class HotelParameters : PagingParameters
     public string? City { get; set; }
     public uint MinPrice { get; set; }
     public uint MaxPrice { get; set; } = int.MaxValue;
+    [Range(1, 5)]
     public uint MinRating { get; set; }
-    public uint MaxRating { get; set; } = int.MaxValue;
-    public bool ValidPriceRange => MinPrice > MaxPrice;
-    public bool ValidRatingRange => MinRating > MaxRating;
+    [Range(1, 5)]
+    public uint MaxRating { get; set; } = 5;
+    public bool ValidPriceRange => MaxPrice >= MinPrice;
+    public bool ValidRatingRange => MaxRating >= MinRating;
     public string? SearchTerm { get; set; }
 }

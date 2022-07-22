@@ -128,7 +128,8 @@ internal sealed partial class HotelService : IHotelService
             .Adapt<HotelDto>();
     }
 
-    public Task<(HotelForUpdateDto hotelToPatch, Hotel hotelEntity)> 
+    public Task<(HotelForUpdateDto hotelToPatch, 
+        Hotel hotelEntity)> 
         GetHotelForPatchAsync(int id)
     {
         throw new NotImplementedException();
@@ -139,7 +140,9 @@ internal sealed partial class HotelService : IHotelService
         Hotel hotelEntity)
     {
         _ = hotelToPatch.Adapt<Hotel>();
-        await _repositoryManager.UnitOfWork.SaveChangesAsync();
+        await _repositoryManager
+            .UnitOfWork
+            .SaveChangesAsync();
     }
 
     public async Task UpdateAsync(
@@ -147,13 +150,12 @@ internal sealed partial class HotelService : IHotelService
         HotelForUpdateDto hotelForUpdateDto,
         CancellationToken stoppingToken = default)
     {
-        Hotel hotel = await GetHotelById(
+        _ = await GetHotelById(
             hotelId,
             true,
             stoppingToken);
 
-        // TODO: implement update logic
-        throw new NotImplementedException();
+        hotelForUpdateDto.Adapt<Hotel>();
 
         await _repositoryManager
             .UnitOfWork

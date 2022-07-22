@@ -21,4 +21,8 @@
 		<ProjectReference Include="..\BookingApp.ServiceLayer\BookingApp.ServiceLayer.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Extensions\" />
+	</ItemGroup>
+
 </Project>

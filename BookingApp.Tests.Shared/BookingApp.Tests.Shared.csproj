@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AutoFixture" Version="4.17.0" />
+		<PackageReference Include="AutoFixture.AutoMoq" Version="4.17.0" />
+		<PackageReference Include="AutoFixture.Xunit2" Version="4.17.0" />
+		<PackageReference Include="Mapster" Version="7.3.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
+		<PackageReference Include="Moq" Version="4.18.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\BookingApp.Contracts\BookingApp.Contracts.csproj" />
+	  <ProjectReference Include="..\BookingApp.DomainLayer\BookingApp.DomainLayer.csproj" />
+	  <ProjectReference Include="..\BookingApp.ServiceLayer.Abstractions\BookingApp.ServiceLayer.Abstractions.csproj" />
+	</ItemGroup>
+</Project>
