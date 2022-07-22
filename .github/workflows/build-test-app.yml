@@ -17,9 +17,12 @@ jobs:
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 6.0.x
+
     - name: Restore dependencies
       run: dotnet restore "BookingApp.API/BookingApp.API.csproj"
+
     - name: Build
       run: dotnet build "BookingApp.API/BookingApp.API.csproj"
-    - name: Test
+
+    - name: Controller Tests
       run: dotnet test "BookingApp.Tests.Controllers/BookingApp.Tests.Controllers.csproj" --no-build --verbosity normal
