@@ -10,6 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{094D000C-0792-4354-82D9-18A5494356BC}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		.github\workflows\build-test-app.yml = .github\workflows\build-test-app.yml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookingApp.ServiceLayer", "BookingApp.ServiceLayer\BookingApp.ServiceLayer.csproj", "{CDB2129B-EE91-4471-A89D-B45F89AA86F4}"
