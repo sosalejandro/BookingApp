@@ -43,6 +43,7 @@ jobs:
           registry: docker.io
           dockerfile: ./BookingApp.API/Dockerfile
           directory: /home/runner/work/BookingApp/BookingApp
+          enableBuildKit: true
           target: final
           username: '${{ secrets.DOCKER_USERNAME }}'
           password: '${{ secrets.DOCKER_PASSWORD }}'
