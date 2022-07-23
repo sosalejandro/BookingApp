@@ -1,28 +1,42 @@
 name: .NET
-
-on:
+'on':
   push:
-    branches: [ "master" ]
+    branches:
+      - master
   pull_request:
-    branches: [ "master" ]
-
+    branches:
+      - master
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v2
-      with:
-        dotnet-version: 6.0.x
+      - uses: actions/checkout@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: 6.0.x
+      - name: Restore dependencies
+        run: dotnet restore "BookingApp.API/BookingApp.API.csproj"
+      - name: Build
+        run: dotnet build "BookingApp.API/BookingApp.API.csproj"
+      - name: Controller Tests
+        run: >-
+          dotnet test
+          "BookingApp.Tests.Controllers/BookingApp.Tests.Controllers.csproj"
+          --no-build --verbosity normal
 
-    - name: Restore dependencies
-      run: dotnet restore "BookingApp.API/BookingApp.API.csproj"
-
-    - name: Build
-      run: dotnet build "BookingApp.API/BookingApp.API.csproj"
-
-    - name: Controller Tests
-      run: dotnet test "BookingApp.Tests.Controllers/BookingApp.Tests.Controllers.csproj" --no-build --verbosity normal
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: mr-smithers-excellent/docker-build-push@v5
+        name: Build and push Docker Image
+        with:
+          image: sunfiremohawk/booking-app-api
+          tags: 'v1, latest'
+          registry: registry-url.io
+          dockerfile: Dockerfile
+          directory: ./BookingApp.API/
+          target: final
+          username: '${{ secrets.DOCKER_USERNAME }}'
+          password: '${{ secrets.DOCKER_PASSWORD }}'
