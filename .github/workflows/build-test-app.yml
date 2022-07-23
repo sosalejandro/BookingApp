@@ -45,7 +45,6 @@ jobs:
       - name: Build and push Docker images
         uses: docker/build-push-action@v3.1.0
         with:
-            context: .
             file: ./BookingApp.API/Dockerfile
             tags: sunfiremohawk/booking-app-api:latest,sunfiremohawk/booking-app-api:1.0.0
             target: final
