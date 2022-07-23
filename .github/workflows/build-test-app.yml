@@ -48,3 +48,4 @@ jobs:
             file: ./BookingApp.API/Dockerfile
             tags: sunfiremohawk/booking-app-api:latest,sunfiremohawk/booking-app-api:1.0.0
             target: final
+            push: true
