@@ -38,6 +38,7 @@ jobs:
           tags: 'v1, latest'
           registry: docker.io
           dockerfile: ./BookingApp.API/Dockerfile
+          directory: BookingApp/BookingApp
           target: final
           username: '${{ secrets.DOCKER_USERNAME }}'
           password: '${{ secrets.DOCKER_PASSWORD }}'
