@@ -34,8 +34,8 @@ jobs:
         with:
           image: sunfiremohawk/booking-app-api
           tags: 'v1, latest'
-          registry: registry-url.io
-          dockerfile: Dockerfile
+          registry: docker.io
+          dockerfile: ./BookingApp.API/Dockerfile
           directory: ./BookingApp.API/
           target: final
           username: '${{ secrets.DOCKER_USERNAME }}'
